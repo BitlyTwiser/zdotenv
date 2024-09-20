@@ -1,6 +1,6 @@
 <div align="center"> 
 
-# Apprunner
+# Zdotenv
 <img src="/assets/zdotenv.png" width="450" height="500">
 </div>
 
