@@ -37,4 +37,6 @@ Zig (at the time of this writing) does not have a solid way of directly adjustin
 
 will only adjust the env map for the scope of this execution (i.e. scope of the current calling function). After function exit, the map goes back to its previous state.
 
+Therefore, we do make a C call to store the env variables that are parsed. So linking libC and running tests with ```--library c``` is needed
+
 Using the package is as simple as the above code examples. import below using zig zon, load the .env, and access the variables as needed using std.process.EnvMap :)
