@@ -50,7 +50,6 @@ pub const Zdotenv = struct {
 
             return;
         };
-        // defer file.close();
 
         // Set file
         self.file = file;
@@ -73,7 +72,6 @@ pub const Zdotenv = struct {
 
             return;
         };
-        // defer file.close();
 
         //Set file
         self.file = file;
@@ -94,6 +92,7 @@ pub const Zdotenv = struct {
             // Dupe strings with terminating zero for C
             const key_z = try self.allocator.dupeZ(u8, entry.key_ptr.*);
             const value_z = try self.allocator.dupeZ(u8, entry.value_ptr.*);
+
             if (setenv(key_z, value_z, 1) != 0) {
                 std.debug.print("Failed to set env var\n", .{});
                 return;

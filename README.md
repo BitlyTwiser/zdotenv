@@ -11,6 +11,12 @@ Add zdotenv to your zig project:
 zig fetch --save https://github.com/BitlyTwiser/zdotenv/archive/refs/tags/0.1.0.tar.gz
 ```
 
+Add to build file:
+```
+    const zdotenv = b.dependency("zdotenv", .{});
+    exe.root_module.addImport("zdotenv", ymlz.module("root"));
+```
+
 Zdotenv has 2 pathways:
 
 1. Absolute path to .env
@@ -27,6 +33,31 @@ try z.loadFromFile("/home/<username>/Documents/gitclones/zdotenv/test-env.env");
 const z = try Zdotenv.init(std.heap.page_allocator);
 try z.load();
 ```
+
+Example from Main:
+```
+const std = @import("std");
+const zdotenv = @import("lib.zig");
+const assert = std.debug.assert;
+
+///  The binary main is used for testing the package to showcase the API
+pub fn main() !void {
+    var arena = std.heap.ArenaAllocator.init(std.heap.page_allocator);
+    defer arena.deinit();
+    const allocator = arena.allocator();
+
+    var dotenv = try zdotenv.Zdotenv.init(allocator);
+    try dotenv.load();
+
+    const env_map = try std.process.getEnvMap(allocator);
+    const pass = env_map.get("PASSWORD") orelse "foobar";
+
+    assert(std.mem.eql(u8, pass, "I AM ALIVE!!"));
+}
+
+```
+
+Importing this into your own library, you will use `@import("zdotenv")`. Otherwise, this would be the same :)
 
 ## C usage:
 Zig (at the time of this writing) does not have a solid way of directly adjusting the env variables. Doing things like:

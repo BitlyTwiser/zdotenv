@@ -12,6 +12,8 @@ pub fn build(b: *std.Build) void {
         .target = target,
         .optimize = optimize,
     });
+
+    // For setting env vars using C
     exe.linkLibC();
     b.installArtifact(exe);
 
