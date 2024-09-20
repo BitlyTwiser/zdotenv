@@ -1,6 +1,5 @@
 <div align="center"> 
 
-# Zdotenv
 <img src="/assets/zdotenv.png" width="450" height="500">
 </div>
 
