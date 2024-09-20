@@ -14,7 +14,7 @@ zig fetch --save https://github.com/BitlyTwiser/zdotenv/archive/refs/tags/0.1.0.
 Add to build file:
 ```
     const zdotenv = b.dependency("zdotenv", .{});
-    exe.root_module.addImport("zdotenv", zdotenv.module("root"));
+    exe.root_module.addImport("zdotenv", zdotenv.module("zdotenv"));
 ```
 
 Zdotenv has 2 pathways:
