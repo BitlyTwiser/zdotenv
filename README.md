@@ -8,7 +8,7 @@ Zdotenv is a simple .env parser and a port of godotenv and ruby dotenv, but with
 ### Usage:
 Add zdotenv to your zig project:
 ```
-zig fetch --save https://github.com/BitlyTwiser/zdotenv/archive/refs/tags/0.1.0.tar.gz
+zig fetch --save https://github.com/BitlyTwiser/zdotenv/archive/refs/tags/v0.1.0.tar.gz
 ```
 
 Add to build file:
