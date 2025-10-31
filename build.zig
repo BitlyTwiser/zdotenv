@@ -6,12 +6,14 @@ pub fn build(b: *std.Build) void {
 
     const optimize = b.standardOptimizeOption(.{});
 
-    const exe = b.addExecutable(.{
-        .name = "zdotenv",
-        .root_source_file = b.path("src/main.zig"),
-        .target = target,
-        .optimize = optimize,
-    });
+    const main_module =
+        b.createModule(.{
+            .root_source_file = b.path("src/main.zig"),
+            .target = target,
+            .optimize = optimize,
+        });
+
+    const exe = b.addExecutable(.{ .name = "zdotenv", .root_module = main_module });
 
     // For setting env vars using C
     exe.linkLibC();
@@ -20,8 +22,7 @@ pub fn build(b: *std.Build) void {
     // Module setup
     _ = b.addModule("zdotenv", .{ .root_source_file = b.path("src/main.zig") });
     var lib_tests = b.addTest(.{
-        .root_source_file = b.path("src/main.zig"),
-        .optimize = optimize,
+        .root_module = main_module,
     });
 
     const test_step = b.step("test", "Run library tests");

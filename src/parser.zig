@@ -18,7 +18,9 @@ pub const Parser = struct {
     // parse is a simple parsing function. Its simple on purpose, this process should not be lofty or complex. No AST's or complex symbol resolution. Just take the Key and Value from the K=V from an .env and avoid comments (#)
     pub fn parse(self: *Self) !std.StringHashMap([]const u8) {
         var buf: [1024 * 2 * 2]u8 = undefined;
-        while (try self.file.reader().readUntilDelimiterOrEof(&buf, '\n')) |line| {
+        var reader = self.file.reader(&buf);
+
+        while (reader.interface.takeDelimiterExclusive('\n')) |line| {
             // Skip comments (i.e. #)
             if (std.mem.startsWith(u8, line, "#")) continue;
             if (std.mem.eql(u8, line, "")) continue;
@@ -36,6 +38,9 @@ pub const Parser = struct {
             const d_val = try self.allocator.dupe(u8, value);
 
             try self.env_values.put(d_key, d_val);
+        } else |err| {
+            if (err != error.EndOfStream)
+                return err;
         }
 
         return self.env_values;
